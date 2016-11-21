@@ -1,0 +1,7 @@
+*~
+/build
+/images
+/site
+/openwrt
+/packages
+/modules.local
