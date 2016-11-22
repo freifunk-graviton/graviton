@@ -7,94 +7,94 @@ export LC_ALL LANG
 empty:=
 space:= $(empty) $(empty)
 
-GLUONMAKE_EARLY = $(SUBMAKE) -C $(GLUON_ORIGOPENWRTDIR) -f $(GLUONDIR)/Makefile GLUON_TOOLS=0
-GLUONMAKE = $(SUBMAKE) -C $(GLUON_OPENWRTDIR) -f $(GLUONDIR)/Makefile
+GRAVITONMAKE_EARLY = $(SUBMAKE) -C $(GRAVITON_ORIGOPENWRTDIR) -f $(GRAVITONDIR)/Makefile GRAVITON_TOOLS=0
+GRAVITONMAKE = $(SUBMAKE) -C $(GRAVITON_OPENWRTDIR) -f $(GRAVITONDIR)/Makefile
 
 ifneq ($(OPENWRT_BUILD),1)
 
-GLUONDIR:=${CURDIR}
+GRAVITONDIR:=${CURDIR}
 
-include $(GLUONDIR)/include/gluon.mk
+include $(GRAVITONDIR)/include/graviton.mk
 
-TOPDIR:=$(GLUON_ORIGOPENWRTDIR)
+TOPDIR:=$(GRAVITON_ORIGOPENWRTDIR)
 export TOPDIR
 
 
-GLUON_TARGET ?= ar71xx-generic
-export GLUON_TARGET
+GRAVITON_TARGET ?= ar71xx-generic
+export GRAVITON_TARGET
 
 
 update: FORCE
-	$(GLUONDIR)/scripts/update.sh $(GLUONDIR)
-	$(GLUONDIR)/scripts/patch.sh $(GLUONDIR)
+	$(GRAVITONDIR)/scripts/update.sh $(GRAVITONDIR)
+	$(GRAVITONDIR)/scripts/patch.sh $(GRAVITONDIR)
 
 patch: FORCE
-	$(GLUONDIR)/scripts/patch.sh $(GLUONDIR)
+	$(GRAVITONDIR)/scripts/patch.sh $(GRAVITONDIR)
 
 unpatch: FORCE
-	$(GLUONDIR)/scripts/unpatch.sh $(GLUONDIR)
+	$(GRAVITONDIR)/scripts/unpatch.sh $(GRAVITONDIR)
 
 update-patches: FORCE
-	$(GLUONDIR)/scripts/update.sh $(GLUONDIR)
-	$(GLUONDIR)/scripts/update-patches.sh $(GLUONDIR)
-	$(GLUONDIR)/scripts/patch.sh $(GLUONDIR)
+	$(GRAVITONDIR)/scripts/update.sh $(GRAVITONDIR)
+	$(GRAVITONDIR)/scripts/update-patches.sh $(GRAVITONDIR)
+	$(GRAVITONDIR)/scripts/patch.sh $(GRAVITONDIR)
 
 -include $(TOPDIR)/include/host.mk
 
 _SINGLE=export MAKEFLAGS=$(space);
 
 override OPENWRT_BUILD=1
-override GLUON_TOOLS=1
+override GRAVITON_TOOLS=1
 GREP_OPTIONS=
-export OPENWRT_BUILD GLUON_TOOLS GREP_OPTIONS
+export OPENWRT_BUILD GRAVITON_TOOLS GREP_OPTIONS
 
 -include $(TOPDIR)/include/debug.mk
 -include $(TOPDIR)/include/depends.mk
-include $(GLUONDIR)/include/toplevel.mk
+include $(GRAVITONDIR)/include/toplevel.mk
 
-define GluonProfile
+define GravitonProfile
 image/$(1): FORCE
-	+@$$(GLUONMAKE) $$@
+	+@$$(GRAVITONMAKE) $$@
 endef
 
-define GluonModel
+define GravitonModel
 endef
 
-include $(GLUONDIR)/targets/targets.mk
-include $(GLUONDIR)/targets/$(GLUON_TARGET)/profiles.mk
+include $(GRAVITONDIR)/targets/targets.mk
+include $(GRAVITONDIR)/targets/$(GRAVITON_TARGET)/profiles.mk
 
 
-CheckExternal := test -d $(GLUON_ORIGOPENWRTDIR) || (echo 'You don'"'"'t seem to have obtained the external repositories needed by Gluon; please call `make update` first!'; false)
+CheckExternal := test -d $(GRAVITON_ORIGOPENWRTDIR) || (echo 'You don'"'"'t seem to have obtained the external repositories needed by Graviton; please call `make update` first!'; false)
 
 
 prepare-target: FORCE
 	@$(CheckExternal)
-	+@$(GLUONMAKE_EARLY) prepare-target
+	+@$(GRAVITONMAKE_EARLY) prepare-target
 
 
 all: prepare-target
-	+@$(GLUONMAKE) prepare
-	+@$(GLUONMAKE) images
+	+@$(GRAVITONMAKE) prepare
+	+@$(GRAVITONMAKE) images
 
 prepare: prepare-target
-	+@$(GLUONMAKE) $@
+	+@$(GRAVITONMAKE) $@
 
 clean dirclean download images: FORCE
 	@$(CheckExternal)
-	+@$(GLUONMAKE_EARLY) maybe-prepare-target
-	+@$(GLUONMAKE) $@
+	+@$(GRAVITONMAKE_EARLY) maybe-prepare-target
+	+@$(GRAVITONMAKE) $@
 
 toolchain/% package/% target/%: FORCE
 	@$(CheckExternal)
-	+@$(GLUONMAKE_EARLY) maybe-prepare-target
-	+@$(GLUONMAKE) $@
+	+@$(GRAVITONMAKE_EARLY) maybe-prepare-target
+	+@$(GRAVITONMAKE) $@
 
 manifest: FORCE
-	[ -n '$(GLUON_BRANCH)' ] || (echo 'Please set GLUON_BRANCH to create a manifest.'; false)
-	echo '$(GLUON_PRIORITY)' | grep -qE '^([0-9]*\.)?[0-9]+$$' || (echo 'Please specify a numeric value for GLUON_PRIORITY to create a manifest.'; false)
+	[ -n '$(GRAVITON_BRANCH)' ] || (echo 'Please set GRAVITON_BRANCH to create a manifest.'; false)
+	echo '$(GRAVITON_PRIORITY)' | grep -qE '^([0-9]*\.)?[0-9]+$$' || (echo 'Please specify a numeric value for GRAVITON_PRIORITY to create a manifest.'; false)
 	@$(CheckExternal)
-	+@$(GLUONMAKE_EARLY) maybe-prepare-target
-	+@$(GLUONMAKE) $@
+	+@$(GRAVITONMAKE_EARLY) maybe-prepare-target
+	+@$(GRAVITONMAKE) $@
 
 else
 
@@ -103,7 +103,7 @@ export TOPDIR
 
 include rules.mk
 
-include $(GLUONDIR)/include/gluon.mk
+include $(GRAVITONDIR)/include/graviton.mk
 
 include $(INCLUDE_DIR)/host.mk
 include $(INCLUDE_DIR)/depends.mk
@@ -123,27 +123,27 @@ define Profile
   $(eval $(call Profile/$(1)))
 endef
 
-define GluonProfile
+define GravitonProfile
 PROFILES += $(1)
-PROFILE_PACKAGES += $(filter-out -%,$(2) $(GLUON_$(1)_SITE_PACKAGES))
-GLUON_$(1)_DEFAULT_PACKAGES := $(2)
-GLUON_$(1)_MODELS :=
+PROFILE_PACKAGES += $(filter-out -%,$(2) $(GRAVITON_$(1)_SITE_PACKAGES))
+GRAVITON_$(1)_DEFAULT_PACKAGES := $(2)
+GRAVITON_$(1)_MODELS :=
 endef
 
-define GluonModel
-GLUON_$(1)_MODELS += $(3)
-GLUON_$(1)_MODEL_$(3) := $(2)
+define GravitonModel
+GRAVITON_$(1)_MODELS += $(3)
+GRAVITON_$(1)_MODEL_$(3) := $(2)
 endef
 
 
-include $(GLUONDIR)/targets/targets.mk
-include $(GLUONDIR)/targets/$(GLUON_TARGET)/profiles.mk
+include $(GRAVITONDIR)/targets/targets.mk
+include $(GRAVITONDIR)/targets/$(GRAVITON_TARGET)/profiles.mk
 
-BOARD := $(GLUON_TARGET_$(GLUON_TARGET)_BOARD)
-override SUBTARGET := $(GLUON_TARGET_$(GLUON_TARGET)_SUBTARGET)
+BOARD := $(GRAVITON_TARGET_$(GRAVITON_TARGET)_BOARD)
+override SUBTARGET := $(GRAVITON_TARGET_$(GRAVITON_TARGET)_SUBTARGET)
 
 target_prepared_stamp := $(BOARD_BUILDDIR)/target-prepared
-gluon_prepared_stamp := $(BOARD_BUILDDIR)/prepared
+graviton_prepared_stamp := $(BOARD_BUILDDIR)/prepared
 
 
 include $(INCLUDE_DIR)/target.mk
@@ -152,9 +152,9 @@ include $(INCLUDE_DIR)/target.mk
 prereq: FORCE
 	+$(NO_TRACE_MAKE) prereq
 
-gluon-tools: FORCE
-	+$(GLUONMAKE_EARLY) tools/sed/install
-	+$(GLUONMAKE_EARLY) package/lua/host/install
+graviton-tools: FORCE
+	+$(GRAVITONMAKE_EARLY) tools/sed/install
+	+$(GRAVITONMAKE_EARLY) package/lua/host/install
 
 prepare-tmpinfo: FORCE
 	mkdir -p tmp/info
@@ -170,33 +170,33 @@ prepare-tmpinfo: FORCE
 feeds: FORCE
 	rm -rf $(TOPDIR)/package/feeds
 	mkdir $(TOPDIR)/package/feeds
-	[ ! -f $(GLUON_SITEDIR)/modules ] || . $(GLUON_SITEDIR)/modules && for feed in $$GLUON_SITE_FEEDS; do ln -s ../../../packages/$$feed $(TOPDIR)/package/feeds/$$feed; done
-	. $(GLUONDIR)/modules && for feed in $$GLUON_FEEDS; do ln -s ../../../packages/$$feed $(TOPDIR)/package/feeds/$$feed; done
-	+$(GLUONMAKE_EARLY) prepare-tmpinfo
+	[ ! -f $(GRAVITON_SITEDIR)/modules ] || . $(GRAVITON_SITEDIR)/modules && for feed in $$GRAVITON_SITE_FEEDS; do ln -s ../../../packages/$$feed $(TOPDIR)/package/feeds/$$feed; done
+	. $(GRAVITONDIR)/modules && for feed in $$GRAVITON_FEEDS; do ln -s ../../../packages/$$feed $(TOPDIR)/package/feeds/$$feed; done
+	+$(GRAVITONMAKE_EARLY) prepare-tmpinfo
 
 config: FORCE
 	( \
-		cat $(GLUONDIR)/include/config $(GLUONDIR)/targets/$(GLUON_TARGET)/config; \
-		echo '$(patsubst %,CONFIG_PACKAGE_%=m,$(sort $(filter-out -%,$(GLUON_DEFAULT_PACKAGES) $(GLUON_SITE_PACKAGES) $(PROFILE_PACKAGES))))' \
+		cat $(GRAVITONDIR)/include/config $(GRAVITONDIR)/targets/$(GRAVITON_TARGET)/config; \
+		echo '$(patsubst %,CONFIG_PACKAGE_%=m,$(sort $(filter-out -%,$(GRAVITON_DEFAULT_PACKAGES) $(GRAVITON_SITE_PACKAGES) $(PROFILE_PACKAGES))))' \
 			| sed -e 's/ /\n/g'; \
 	) > .config
 	+$(NO_TRACE_MAKE) defconfig OPENWRT_BUILD=0
 
 prepare-target: FORCE
-	mkdir -p $(GLUON_OPENWRTDIR)
+	mkdir -p $(GRAVITON_OPENWRTDIR)
 	for dir in build_dir dl staging_dir tmp; do \
-		mkdir -p $(GLUON_ORIGOPENWRTDIR)/$$dir; \
+		mkdir -p $(GRAVITON_ORIGOPENWRTDIR)/$$dir; \
 	done
 	for link in build_dir config Config.in dl include Makefile package rules.mk scripts staging_dir target tmp toolchain tools; do \
-		ln -sf $(GLUON_ORIGOPENWRTDIR)/$$link $(GLUON_OPENWRTDIR); \
+		ln -sf $(GRAVITON_ORIGOPENWRTDIR)/$$link $(GRAVITON_OPENWRTDIR); \
 	done
-	+$(GLUONMAKE_EARLY) feeds
-	+$(GLUONMAKE_EARLY) gluon-tools
-	+$(GLUONMAKE) config
+	+$(GRAVITONMAKE_EARLY) feeds
+	+$(GRAVITONMAKE_EARLY) graviton-tools
+	+$(GRAVITONMAKE) config
 	touch $(target_prepared_stamp)
 
 $(target_prepared_stamp):
-	+$(GLUONMAKE_EARLY) prepare-target
+	+$(GRAVITONMAKE_EARLY) prepare-target
 
 maybe-prepare-target: $(target_prepared_stamp)
 
@@ -210,15 +210,15 @@ $(package/stamp-compile): $(package/stamp-cleanup)
 
 clean: FORCE
 	+$(SUBMAKE) clean
-	rm -f $(gluon_prepared_stamp)
+	rm -f $(graviton_prepared_stamp)
 
 dirclean: FORCE
 	+$(SUBMAKE) dirclean
-	rm -rf $(GLUON_BUILDDIR)
+	rm -rf $(GRAVITON_BUILDDIR)
 
 
-export MD5SUM := $(GLUONDIR)/scripts/md5sum.sh
-export SHA512SUM := $(GLUONDIR)/scripts/sha512sum.sh
+export MD5SUM := $(GRAVITONDIR)/scripts/md5sum.sh
+export SHA512SUM := $(GRAVITONDIR)/scripts/sha512sum.sh
 
 
 download: FORCE
@@ -232,8 +232,8 @@ toolchain: $(toolchain/stamp-install) $(tools/stamp-install)
 include $(INCLUDE_DIR)/kernel.mk
 
 kernel: FORCE
-	+$(NO_TRACE_MAKE) -C $(TOPDIR)/target/linux/$(BOARD) -f $(GLUONDIR)/include/Makefile.target $(LINUX_DIR)/.image TARGET_BUILD=1
-	+$(NO_TRACE_MAKE) -C $(TOPDIR)/target/linux/$(BOARD) -f $(GLUONDIR)/include/Makefile.target $(LINUX_DIR)/.modules TARGET_BUILD=1
+	+$(NO_TRACE_MAKE) -C $(TOPDIR)/target/linux/$(BOARD) -f $(GRAVITONDIR)/include/Makefile.target $(LINUX_DIR)/.image TARGET_BUILD=1
+	+$(NO_TRACE_MAKE) -C $(TOPDIR)/target/linux/$(BOARD) -f $(GRAVITONDIR)/include/Makefile.target $(LINUX_DIR)/.modules TARGET_BUILD=1
 
 packages: $(package/stamp-compile)
 	$(_SINGLE)$(SUBMAKE) -r package/index
@@ -242,30 +242,30 @@ prepare-image: FORCE
 	rm -rf $(BOARD_KDIR)
 	mkdir -p $(BOARD_KDIR)
 	cp $(KERNEL_BUILD_DIR)/vmlinux $(KERNEL_BUILD_DIR)/vmlinux.elf $(BOARD_KDIR)/
-	+$(SUBMAKE) -C $(TOPDIR)/target/linux/$(BOARD)/image -f $(GLUONDIR)/include/Makefile.image prepare KDIR="$(BOARD_KDIR)"
+	+$(SUBMAKE) -C $(TOPDIR)/target/linux/$(BOARD)/image -f $(GRAVITONDIR)/include/Makefile.image prepare KDIR="$(BOARD_KDIR)"
 
 prepare: FORCE
-	@$(STAGING_DIR_HOST)/bin/lua $(GLUONDIR)/packages/gluon/gluon/gluon-core/files/usr/lib/lua/gluon/site_config.lua \
+	@$(STAGING_DIR_HOST)/bin/lua $(GRAVITONDIR)/packages/graviton/graviton/graviton-core/files/usr/lib/lua/graviton/site_config.lua \
 		|| (echo 'Your site configuration did not pass validation.'; false)
 
-	mkdir -p $(GLUON_IMAGEDIR) $(BOARD_BUILDDIR)
+	mkdir -p $(GRAVITON_IMAGEDIR) $(BOARD_BUILDDIR)
 	echo 'src packages file:../openwrt/bin/$(BOARD)/packages' > $(BOARD_BUILDDIR)/opkg.conf
 
-	+$(GLUONMAKE) toolchain
-	+$(GLUONMAKE) kernel
-	+$(GLUONMAKE) packages
-	+$(GLUONMAKE) prepare-image
+	+$(GRAVITONMAKE) toolchain
+	+$(GRAVITONMAKE) kernel
+	+$(GRAVITONMAKE) packages
+	+$(GRAVITONMAKE) prepare-image
 
-	echo "$(GLUON_RELEASE)" > $(gluon_prepared_stamp)
+	echo "$(GRAVITON_RELEASE)" > $(graviton_prepared_stamp)
 
-$(gluon_prepared_stamp):
-	+$(GLUONMAKE) prepare
+$(graviton_prepared_stamp):
+	+$(GRAVITONMAKE) prepare
 
 
 include $(INCLUDE_DIR)/package-ipkg.mk
 
 # override variables from rules.mk
-PACKAGE_DIR = $(GLUON_OPENWRTDIR)/bin/$(BOARD)/packages
+PACKAGE_DIR = $(GRAVITON_OPENWRTDIR)/bin/$(BOARD)/packages
 
 PROFILE_BUILDDIR = $(BOARD_BUILDDIR)/$(PROFILE)
 PROFILE_KDIR = $(PROFILE_BUILDDIR)/kernel
@@ -274,7 +274,7 @@ BIN_DIR = $(PROFILE_BUILDDIR)/images
 TMP_DIR = $(PROFILE_BUILDDIR)/tmp
 TARGET_DIR = $(PROFILE_BUILDDIR)/root
 
-IMAGE_PREFIX = gluon-$(GLUON_SITE_CODE)-$$(cat $(gluon_prepared_stamp))
+IMAGE_PREFIX = graviton-$(GRAVITON_SITE_CODE)-$$(cat $(graviton_prepared_stamp))
 
 OPKG:= \
   IPKG_TMP="$(TMP_DIR)/ipkgtmp" \
@@ -302,7 +302,7 @@ enable_initscripts: FORCE
 
 
 # Generate package list
-$(eval $(call merge-lists,INSTALL_PACKAGES,DEFAULT_PACKAGES GLUON_DEFAULT_PACKAGES GLUON_SITE_PACKAGES GLUON_$(PROFILE)_DEFAULT_PACKAGES GLUON_$(PROFILE)_SITE_PACKAGES))
+$(eval $(call merge-lists,INSTALL_PACKAGES,DEFAULT_PACKAGES GRAVITON_DEFAULT_PACKAGES GRAVITON_SITE_PACKAGES GRAVITON_$(PROFILE)_DEFAULT_PACKAGES GRAVITON_$(PROFILE)_SITE_PACKAGES))
 
 package_install: FORCE
 	$(OPKG) update
@@ -310,16 +310,16 @@ package_install: FORCE
 	$(OPKG) install $(PACKAGE_DIR)/kernel_*.ipk
 
 	$(OPKG) install $(INSTALL_PACKAGES)
-	+$(GLUONMAKE) enable_initscripts
+	+$(GRAVITONMAKE) enable_initscripts
 
 	rm -f $(TARGET_DIR)/usr/lib/opkg/lists/* $(TARGET_DIR)/tmp/opkg.lock
 
-ifeq ($(GLUON_OPKG_CONFIG),1)
+ifeq ($(GRAVITON_OPKG_CONFIG),1)
 include $(INCLUDE_DIR)/version.mk
 endif
 
 opkg_config: FORCE
-	cp $(GLUON_OPENWRTDIR)/package/system/opkg/files/opkg.conf $(TARGET_DIR)/etc/opkg.conf
+	cp $(GRAVITON_OPENWRTDIR)/package/system/opkg/files/opkg.conf $(TARGET_DIR)/etc/opkg.conf
 	for d in base luci packages routing telephony management oldpackages; do \
 		echo "src/gz %n_$$d %U/$$d" >> $(TARGET_DIR)/etc/opkg.conf; \
 	done
@@ -328,53 +328,53 @@ opkg_config: FORCE
 
 image: FORCE
 	rm -rf $(TARGET_DIR) $(BIN_DIR) $(TMP_DIR) $(PROFILE_KDIR)
-	mkdir -p $(TARGET_DIR) $(BIN_DIR) $(TMP_DIR) $(TARGET_DIR)/tmp $(GLUON_IMAGEDIR)/factory $(GLUON_IMAGEDIR)/sysupgrade
+	mkdir -p $(TARGET_DIR) $(BIN_DIR) $(TMP_DIR) $(TARGET_DIR)/tmp $(GRAVITON_IMAGEDIR)/factory $(GRAVITON_IMAGEDIR)/sysupgrade
 	cp -r $(BOARD_KDIR) $(PROFILE_KDIR)
 
-	+$(GLUONMAKE) package_install
-	+$(GLUONMAKE) opkg_config GLUON_OPKG_CONFIG=1
+	+$(GRAVITONMAKE) package_install
+	+$(GRAVITONMAKE) opkg_config GRAVITON_OPKG_CONFIG=1
 
 	$(call Image/mkfs/prepare)
-	$(_SINGLE)$(NO_TRACE_MAKE) -C $(TOPDIR)/target/linux/$(BOARD)/image install TARGET_BUILD=1 IB=1 IMG_PREFIX=gluon \
+	$(_SINGLE)$(NO_TRACE_MAKE) -C $(TOPDIR)/target/linux/$(BOARD)/image install TARGET_BUILD=1 IB=1 IMG_PREFIX=graviton \
 		PROFILE="$(PROFILE)" KDIR="$(PROFILE_KDIR)" TARGET_DIR="$(TARGET_DIR)" BIN_DIR="$(BIN_DIR)" TMP_DIR="$(TMP_DIR)"
 
-	$(foreach model,$(GLUON_$(PROFILE)_MODELS), \
-		rm -f $(GLUON_IMAGEDIR)/factory/gluon-*-$(model).bin && \
-		rm -f $(GLUON_IMAGEDIR)/sysupgrade/gluon-*-$(model)-sysupgrade.bin && \
+	$(foreach model,$(GRAVITON_$(PROFILE)_MODELS), \
+		rm -f $(GRAVITON_IMAGEDIR)/factory/graviton-*-$(model).bin && \
+		rm -f $(GRAVITON_IMAGEDIR)/sysupgrade/graviton-*-$(model)-sysupgrade.bin && \
 		\
-		cp $(BIN_DIR)/gluon-$(GLUON_$(PROFILE)_MODEL_$(model))-factory.bin $(GLUON_IMAGEDIR)/factory/$(IMAGE_PREFIX)-$(model).bin && \
-		cp $(BIN_DIR)/gluon-$(GLUON_$(PROFILE)_MODEL_$(model))-sysupgrade.bin $(GLUON_IMAGEDIR)/sysupgrade/$(IMAGE_PREFIX)-$(model)-sysupgrade.bin && \
+		cp $(BIN_DIR)/graviton-$(GRAVITON_$(PROFILE)_MODEL_$(model))-factory.bin $(GRAVITON_IMAGEDIR)/factory/$(IMAGE_PREFIX)-$(model).bin && \
+		cp $(BIN_DIR)/graviton-$(GRAVITON_$(PROFILE)_MODEL_$(model))-sysupgrade.bin $(GRAVITON_IMAGEDIR)/sysupgrade/$(IMAGE_PREFIX)-$(model)-sysupgrade.bin && \
 	) :
 
-image/%: $(gluon_prepared_stamp)
-	+$(GLUONMAKE) image PROFILE="$(patsubst image/%,%,$@)" V=s$(OPENWRT_VERBOSE)
+image/%: $(graviton_prepared_stamp)
+	+$(GRAVITONMAKE) image PROFILE="$(patsubst image/%,%,$@)" V=s$(OPENWRT_VERBOSE)
 
 call_image/%: FORCE
-	+$(GLUONMAKE) $(patsubst call_image/%,image/%,$@)
+	+$(GRAVITONMAKE) $(patsubst call_image/%,image/%,$@)
 
 images: $(patsubst %,call_image/%,$(PROFILES)) ;
 
 manifest: FORCE
-	mkdir -p $(GLUON_IMAGEDIR)/sysupgrade
-	(cd $(GLUON_IMAGEDIR)/sysupgrade && \
-		echo 'BRANCH=$(GLUON_BRANCH)' && \
-		echo 'DATE=$(shell $(STAGING_DIR_HOST)/bin/lua $(GLUONDIR)/scripts/rfc3339date.lua)' && \
-		echo 'PRIORITY=$(GLUON_PRIORITY)' && \
+	mkdir -p $(GRAVITON_IMAGEDIR)/sysupgrade
+	(cd $(GRAVITON_IMAGEDIR)/sysupgrade && \
+		echo 'BRANCH=$(GRAVITON_BRANCH)' && \
+		echo 'DATE=$(shell $(STAGING_DIR_HOST)/bin/lua $(GRAVITONDIR)/scripts/rfc3339date.lua)' && \
+		echo 'PRIORITY=$(GRAVITON_PRIORITY)' && \
 		echo && \
 		($(foreach profile,$(PROFILES), \
-			$(foreach model,$(GLUON_$(profile)_MODELS), \
-				for file in gluon-*-'$(model)-sysupgrade.bin'; do \
+			$(foreach model,$(GRAVITON_$(profile)_MODELS), \
+				for file in graviton-*-'$(model)-sysupgrade.bin'; do \
 					[ -e "$$file" ] && echo \
 						'$(model)' \
-						"$$(echo "$$file" | sed -n -r -e 's/^gluon-$(call regex-escape,$(GLUON_SITE_CODE))-(.*)-$(call regex-escape,$(model))-sysupgrade\.bin$$/\1/p')" \
+						"$$(echo "$$file" | sed -n -r -e 's/^graviton-$(call regex-escape,$(GRAVITON_SITE_CODE))-(.*)-$(call regex-escape,$(model))-sysupgrade\.bin$$/\1/p')" \
 						"$$($(SHA512SUM) "$$file")" \
 						"$$file" && break; \
 				done; \
 			) \
 		) :) \
-	) > $(GLUON_IMAGEDIR)/sysupgrade/$(GLUON_BRANCH).manifest
+	) > $(GRAVITON_IMAGEDIR)/sysupgrade/$(GRAVITON_BRANCH).manifest
 
 
-.PHONY: all images prepare clean gluon-tools
+.PHONY: all images prepare clean graviton-tools
 
 endif

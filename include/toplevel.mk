@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2007-2012 OpenWrt.org
 # Copyright (C) 2013-2014 Project Gluon
+# Copyright (C) 2016      Project Graviton
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -12,7 +13,7 @@ PREP_MK= OPENWRT_BUILD= QUIET=0
 
 export IS_TTY=$(shell tty -s && echo 1 || echo 0)
 
-include $(GLUONDIR)/include/verbose.mk
+include $(GRAVITONDIR)/include/verbose.mk
 
 REVISION:=$(shell [ -d $(TOPDIR) ] && cd $(TOPDIR) && ./scripts/getver.sh 2>/dev/null)
 

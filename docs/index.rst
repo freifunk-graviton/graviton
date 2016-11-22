@@ -1,8 +1,7 @@
-Welcome to Gluon
+Welcome to Graviton
 ================
 
-Gluon is a modular framework for creating OpenWrt-based firmwares for wireless mesh nodes.
-Several Freifunk communities in Germany use Gluon as the foundation of their Freifunk firmwares.
+Graviton is a modular framework for creating OpenWrt-based firmwares for wireless PtP and PtmP setups.
 
 
 User Documentation
@@ -23,8 +22,6 @@ Features
 
    features/configmode
    features/autoupdater
-   features/private-wlan
-   features/mesh-on-wan
    features/announce
    features/authorized-keys
 
@@ -91,7 +88,7 @@ License
 
 See LICENCE_
 
-.. _LICENCE: https://github.com/freifunk-gluon/gluon/blob/master/LICENSE
+.. _LICENCE: https://github.com/freifunk-graviton/graviton/blob/master/LICENSE
 
 Indices and tables
 ==================
