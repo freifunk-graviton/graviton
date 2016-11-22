@@ -14,7 +14,7 @@ if need_table('opkg', nil, false) then
   need_table('opkg.extra', check_repo, false)
 end
 
-need_string('hostname_prefix', false)
+need_string('hostname_suffix', false)
 need_string 'timezone'
 
 need_string_array('ntp_servers', false)
