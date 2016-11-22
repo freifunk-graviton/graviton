@@ -39,7 +39,7 @@ local lutil = require 'luci.util'
 local fs = require 'nixio.fs'
 
 
-module 'gluon.util'
+module 'graviton.util'
 
 function exec(...)
   return os.execute(escape_args('', 'exec', ...))
@@ -113,7 +113,7 @@ local function get_addresses(radio)
   return io.lines('/sys/class/ieee80211/' .. phy .. '/addresses')
 end
 
--- Generates a (hopefully) unique MAC address
+-- Should generates a unique MAC address
 -- The parameter defines the ID to add to the MAC address
 --
 -- IDs defined so far:
@@ -126,25 +126,27 @@ end
 -- 6: ibss1
 -- 7: wan_radio1 (private WLAN); mesh VPN
 function generate_mac(i)
-  if i > 7 or i < 0 then return nil end -- max allowed id (0b111)
+  -- generate MAC like Aruba 
+  -- (https://community.arubanetworks.com/t5/Controller-Based-WLANs/
+  --  How-is-the-BSSID-derived-from-the-Access-Point-ethernet-MAC/ta-p/176290)
 
-  local hashed = string.sub(hash.md5(sysconfig.primary_mac), 0, 12)
-  local m1, m2, m3, m4, m5, m6 = string.match(hashed, '(%x%x)(%x%x)(%x%x)(%x%x)(%x%x)(%x%x)')
-
-  m1 = tonumber(m1, 16)
-  m6 = tonumber(m6, 16)
-
-  m1 = nixio.bit.bor(m1, 0x02)  -- set locally administered bit
-  m1 = nixio.bit.band(m1, 0xFE) -- unset the multicast bit
+  local oui1, oui2, oui3, _, mm, suf1,suf2, suf3, suf4, suf5, suf6 = 
+        string.match(sysconfig.primary_mac, '(%x%x):(%x%x):(%x%x):%x%x:%x%x:%x%x:%x%x')  
 
   -- It's necessary that the first 45 bits of the MAC address don't
   -- vary on a single hardware interface, since some chips are using
   -- a hardware MAC filter. (e.g 'rt305x')
+  if i > 7 or i < 0 then return nil end -- max allowed id (0b111)
 
-  m6 = nixio.bit.band(m6, 0xF8) -- zero the last three bits (space needed for counting)
-  m6 = m6 + i                   -- add virtual interface id
+  mm = tonumber(mm, 16)
+  oui1 = tonumber(oui1, 16)
 
-  return string.format('%02x:%s:%s:%s:%s:%02x', m1, m2, m3, m4, m5, m6)
+  mm = nixio.bin.bxor(mm, 0x08) -- Only Aruba style? What about other vendors?
+  oui1 = nixio.bit.band(oui1, 0xFE) -- unset the multicast bit
+  oui1 = nixio.bit.bor(oui1, 0x02)  -- set locally administered bit
+
+  return string.format('%02x:%s:%01x%01x:%01x%01x:%01x%01x%01x',
+                       oui1, oui2, mm, suf1, suf2, suf3, suf4, suf5, i)
 end
 
 local function get_wlan_mac_from_driver(radio, vif)
