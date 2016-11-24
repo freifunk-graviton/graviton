@@ -31,7 +31,7 @@ function index()
 
 	local page = entry({"admin"}, alias("admin", "index"), _("Advanced settings"), 10)
 	page.sysauth = "root"
-	page.sysauth_authenticator = function() return "root" end
+	page.sysauth_authenticator = "htmlauth"
 	page.index = true
 
 	entry({"admin", "index"}, cbi("admin/info"), _("Information"), 1).ignoreindex = true
