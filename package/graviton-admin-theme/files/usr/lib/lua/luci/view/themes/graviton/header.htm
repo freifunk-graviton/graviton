@@ -1,0 +1,212 @@
+<%#
+LuCI - Lua Configuration Interface
+Copyright 2008 Steven Barth <steven@midlink.org>
+Copyright 2008-2010 Jo-Philipp Wich <xm@subsignal.org>
+Copyright 2016 Vincent Wiemann <vincent.wiemann@ironai.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+$Id$
+
+-%>
+<%
+	local sys  = require "luci.sys"
+	local http = require "luci.http"
+	local disp = require "luci.dispatcher"
+	local uci  = require("luci.model.uci").cursor()
+	local fs   = require "nixio.fs"
+	local graviton_luci = require "graviton.luci"
+	local pretty_hostname = require "pretty_hostname"
+
+	local hostname = pretty_hostname.get(uci)
+	local release = fs.readfile("/lib/gluon/release")
+
+	local request  = disp.context.path
+	local request2 = disp.context.request
+
+	local category = request[1]
+	local cattree  = category and disp.node(category)
+
+	local leaf = request2[#request2]
+
+	local tree = disp.node()
+	local node = disp.context.dispatched
+
+	local categories = disp.node_childs(tree)
+
+	local c = tree
+	local i, r
+
+	-- tag all nodes leading to this page
+	for i, r in ipairs(request) do
+		if c.nodes and c.nodes[r] then
+			c = c.nodes[r]
+			c._menu_selected = true
+		end
+	end
+
+	http.prepare_content("application/xhtml+xml")
+
+	local function nodeurl(prefix, name, query)
+		local url = controller .. prefix .. name .. "/"
+		if query then
+			url = url .. http.build_querystring(query)
+		end
+		return pcdata(url)
+	end
+
+	local function subtree(prefix, node, level)
+		if not level then
+			level = 1
+		end
+
+		local childs = disp.node_childs(node)
+		if #childs > 0 then
+%>
+
+	<ul class="tabmenu l<%=level%>">
+		<%
+			local selected_node
+			local selected_name
+			local i, v
+
+			for i, v in ipairs(childs) do
+				local nnode = node.nodes[v]
+				if nnode._menu_selected then
+					selected_node = nnode
+					selected_name = v
+				end
+		%>
+			<li class="blue tabmenu-item-<%=v%><% if nnode._menu_selected or (node.leaf and v == leaf) then %> active<% end %>">
+				<a href="<%=nodeurl(prefix, v, nnode.query)%>"><%=striptags(translate(nnode.title))%></a>
+			</li>
+		<%
+			end
+		%>
+	</ul>
+<%
+			if selected_node then
+				subtree(prefix .. selected_name .. "/", selected_node, level + 1)
+			end
+		end
+	end
+-%>
+<!DOCTYPE html>
+  <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+  <!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+  <!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html lang="<%=luci.i18n.context.lang%>"> <!--<![endif]-->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#dc0067">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="<%=media%>/mstile-144x144.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="<%=media%>/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="<%=media%>/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="<%=media%>/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="<%=media%>/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="<%=media%>/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="<%=media%>/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="<%=media%>/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="<%=media%>/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="<%=media%>/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="<%=media%>/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="<%=media%>/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="<%=media%>/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="<%=media%>/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="<%=media%>/favicon-32x32.png" sizes="32x32">
+    <link rel="stylesheet" href="<%=media%>/css/jquery.jscrollpane.css" />
+    <link rel="stylesheet" href="<%=media%>/css/customSelectBox.css" />
+    <link rel="stylesheet" href="<%=media%>/css/stylesheet.css">
+    <link rel="stylesheet" href="<%=media%>/css/gh-buttons.css">
+    <!--[if lt IE 9]><script src="<%=media%>/js/html5.js"></script><![endif]-->
+
+<% if node and node.css then %><link rel="stylesheet" type="text/css" media="screen" href="<%=resource%>/<%=node.css%>" />
+<% end -%>
+<% if css then %><style title="text/css">
+<%= css %>
+</style>
+<% end -%>
+<script type="text/javascript" src="<%=resource%>/xhr.js"></script>
+<title><%=graviton_luci.escape( hostname .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - Graviton</title>
+</head>
+<body class="lang_<%=luci.i18n.context.lang%> grav_body">
+
+
+    <header id="menubar">
+<img src="<%=media%>/graviteil.svg" class="logo1" style="p">   <img src="<%=media%>/graviton.svg" class="logo2">
+<div class="infobox hostinfo"><% if release then %>
+	Version: <%=graviton_luci.escape(release)%> <br>
+	<% end %>Uptime: 5 days<br>Load average: 0.26, 0.76, 0.98<br>Hostname: <%=graviton_luci.escape(hostname) %>	
+	<span id="xhr_poll_status" style="display:none" onclick="XHR.running() ? XHR.halt() : XHR.run()">
+		| <%:Auto Refresh%>:
+		<span id="xhr_poll_status_on"><%:on%></span>
+		<span id="xhr_poll_status_off" style="display:none"><%:off%></span>
+	</span></div>
+<div >
+
+
+<% if #categories > 1 then %>
+	<ul id="modemenu">
+		<% for i, r in ipairs(categories) do %>
+			<li><a<% if request[1] == r then %> class="active"<%end%> href="<%=controller%>/<%=r%>/"><%=striptags(translate(tree.nodes[r].title))%></a></li>
+		<% end %>
+	</ul>
+<% end %>
+
+<%
+if tree.nodes[category] and tree.nodes[category].ucidata then
+	local ucic = 0
+	for i, j in pairs(require("luci.model.uci").cursor():changes()) do
+		for k, l in pairs(j) do
+			for m, n in pairs(l) do
+				ucic = ucic + 1;
+			end
+		end
+	end
+-%>
+
+<nav>   
+  <div class="container">
+    <% if category then subtree("/" .. category .. "/", cattree) end %>
+  </div>
+
+  <div class="selectbox">
+    <select name="option-select" class="custom selectsel" id="toolbox">
+      <option value="">Select tool...</option>
+      <option value="#spectrumanalyzer">Spectrum analyzer</option>
+      <option value="#speedtest">Speedtest</option>
+      <option value="#wlanscan">WLAN scan</option>
+    </select>
+  </div>
+</nav>
+
+</header>
+<div class="contentbox" id="maincontent">
+
+<noscript>
+  <div class="errorbox">
+    <strong><%:Java Script required!%></strong><br />
+    <%:You must enable JavaScript in your browser or Graviton will not work properly.%>
+  </div>
+</noscript>
+
+<div id="savemenu">
+	<% if ucic > 0 then %>
+		<a class="warning" href="<%=controller%>/<%=category%>/uci/changes/?redir=<%=luci.http.urlencode(luci.http.formvalue("redir") or REQUEST_URI)%>"><%:Unsaved Changes%>: <%=ucic%></a>
+	<%- else -%>
+		<a href="#"><%:Changes%>: 0</a>
+	<% end -%>
+</div><% end %>
+
+
+
+
+

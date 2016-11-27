@@ -1,0 +1,15 @@
+#!/usr/bin/lua
+
+local site = require 'graviton.site_config'
+local uci = require 'luci.model.uci'
+
+local c = uci.cursor()
+
+if site.failsafe_mode
+   and site.failsafe_mode.skip
+   and not c:get_first('graviton-admin', 'failsafe_mode', 'configured', false) then
+     local name = c:get_first("graviton-admin", "failsafe_mode")
+     c:set("graviton-admin", name, "configured", 1)
+     c:save('graviton-admin')
+end
+
