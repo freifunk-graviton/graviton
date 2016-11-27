@@ -1,0 +1,253 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+html {
+height: 100%;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.about {
+
+
+  width: 300;
+  height: 85;
+ padding: 5px;
+padding-right: 10px;
+  font: 10px/18px 'Lucida Grande', Arial, sans-serif;
+  color: #bbb;
+  float:right;
+  text-align: right;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.3);
+  background: #383838;
+  display:inline-block;
+  background: rgba(250, 250, 250, 1);
+
+border-left-style: solid;
+border-left-width: 3px;
+border-left-color: #444444;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+  background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+
+
+}
+
+
+/*
+ * Copyright (c) 2012-2013 Thibaut Courouble
+ * http://www.cssflow.com
+ *
+ * Licensed under the MIT License:
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+body {
+  font: 13px/18px 'Lucida Grande', Tahoma, Verdana, sans-serif;
+  color: #404040;
+    height: 100%;
+    margin: 0;
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+color: #404040;
+  background: #ecedef;
+background-image: url(images/bgpat.png);
+
+}
+
+.container {
+  float:right;
+  padding-right: 185px;
+  min-width: 600px;
+}
+
+header {
+
+  background: #101010 url("images/headbg.png") 0 0 repeat;
+border-bottom: 1px solid #2e3131;
+
+border-bottom: 3px solid #ccc;
+
+
+
+background: rgba(10,10,10,1);
+
+
+
+
+}
+
+nav {
+  height: 36px;
+  background: #464b4c; /* 464b4c */
+  overflow:auto;
+  min-width:600;
+  border-top: 1px solid #353939;
+  border-bottom: 1px solid #2e3131;
+  background-image: -webkit-linear-gradient(top, #464b4c, #3f4344);
+  background-image: -moz-linear-gradient(top, #464b4c, #3f4344);
+  background-image: -o-linear-gradient(top, #464b4c, #3f4344);
+  background-image: linear-gradient(to bottom, #464b4c, #3f4344);
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+}
+nav a {
+  -webkit-transition: 0.1s ease-out;
+  -moz-transition: 0.1s ease-out;
+  -o-transition: 0.1s ease-out;
+  transition: 0.1s ease-out;
+  -webkit-transition-property: background-color, line-height;
+  -moz-transition-property: background-color, line-height;
+  -o-transition-property: background-color, line-height;
+  transition-property: background-color, line-height;
+}
+nav ul {
+  float: left;
+  border-left: 1px solid #353939;
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid #4d5354;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+nav li {
+  float: left;
+}
+nav a {
+  display: block;
+  padding: 0 20px;
+  line-height: 36px;
+  color: #ddd;
+  text-decoration: none;
+  text-shadow: 0 -1px #2e3131;
+  border-left: 1px solid #4d5354;
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid #353939;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+nav a:hover {
+  background: #4d5354;
+  background: rgba(255, 255, 255, 0.05);
+}
+nav li.active a, nav li.active a:hover, nav a:active {
+  padding: 0 21px;
+  line-height: 33px;
+  color: #eee;
+  background: #323637;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 3px solid #48a9c0;
+  background-image: -webkit-linear-gradient(top, #484e4f, #323637);
+  background-image: -moz-linear-gradient(top, #484e4f, #323637);
+  background-image: -o-linear-gradient(top, #484e4f, #323637);
+  background-image: linear-gradient(to bottom, #484e4f, #323637);
+  -webkit-box-shadow: inset 0 -1px #151717, inset 0 -1px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 -1px #151717, inset 0 -1px 8px rgba(0, 0, 0, 0.2);
+}
+nav li.green a, nav li.green a:active {
+  border-bottom-color: #56c93d;
+}
+nav li.red a, nav li.red a:active {
+  border-bottom-color: #a54e49;
+}
+nav li.purple a, nav li.purple a:active {
+  border-bottom-color: #c052b9;
+}
+nav li.yellow a, nav li.yellow a:active {
+  border-bottom-color: #c0bb30;
+}
+
+.contentbox {
+font-size: 110%;
+}
+.contentbox hr {
+border-top: dotted 1px;
+}
+.contentbox h1 {
+font-size: 125%;
+
+}
+
+
+
+.logo1 {
+padding-top:10px;
+padding-right: 30px; 
+padding-bottom:11px; 
+height: 50px;
+-moz-transform: scaleX(-1);
+-o-transform: scaleX(-1);
+-webkit-transform: scaleX(-1);
+transform: scaleX(-1);
+filter: FlipH;
+-ms-filter: 'FlipH';
+}
+
+.logo2 {
+padding-left:6px;
+padding-top:10px;
+}
+
+.infobox {
+float:right; 
+display:inline-block; 
+text-align: right; 
+color:white; 
+margin-right:20px;
+padding-top:7px;
+}
+
+.selectbox {
+padding-top:5px;display:inline-block;position:absolute;right:40px;
+}
+.selectsel {
+display: none; margin-top:3px;margin-left:10px;
+}
+
+.contentbox {
+margin-left:40px;margin-right:40px;margin-top:20px; margin-bottom:20px;
+}

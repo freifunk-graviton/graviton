@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+admin_enable() {
+	local enabled="$(uci -q get 'graviton-admin.@admin[0].enabled')"
+	local configured="$(uci -q get 'graviton-admin.@admin[0].configured')"
+
+	if [ "$enabled" = 1 -o "$configured" != 1 ]; then
+		echo '/lib/graviton/admin/rc.d' > /tmp/rc_d_path
+	fi
+}
+
+boot_hook_add preinit_main admin_enable
