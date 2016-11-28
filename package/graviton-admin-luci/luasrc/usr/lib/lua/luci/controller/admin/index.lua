@@ -18,8 +18,7 @@ module("luci.controller.admin.index", package.seeall)
 function index()
 	local uci_state = luci.model.uci.cursor_state()
 
-	-- Disable graviton-luci-admin when setup mode is not enabled
-	if uci_state:get_first('graviton-setup-mode', 'setup_mode', 'running', '0') ~= '1' then
+	if uci_state:get_first('graviton-admin', 'admin', 'running', '0') ~= '1' then
 		return
 	end
 
@@ -34,6 +33,6 @@ function index()
 	page.sysauth_authenticator = "htmlauth"
 	page.index = true
 
-	entry({"admin", "index"}, cbi("admin/info"), _("Information"), 1).ignoreindex = true
-	entry({"admin", "remote"}, cbi("admin/remote"), _("Remote access"), 10)
+	entry({"index"}, cbi("status"), _("Status"), 1).ignoreindex = true
+	entry({"remote"}, cbi("advanced"), _("Advanced"), 10)
 end

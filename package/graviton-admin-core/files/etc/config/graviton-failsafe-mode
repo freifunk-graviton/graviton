@@ -1,3 +1,2 @@
 config failsafe_mode
        option enabled '0'
-       option configured '0'

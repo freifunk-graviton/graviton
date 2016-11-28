@@ -1,5 +1,5 @@
-module("luci.controller.admin.wifi-config", package.seeall)
+module("luci.controller.wireless", package.seeall)
 
 function index()
-  entry({"admin", "wifi-config"}, cbi("admin/wifi-config"), _("WLAN"), 20)
+  entry({"wireless"}, cbi("wireless"), _("Wireless"), 20)
 end
