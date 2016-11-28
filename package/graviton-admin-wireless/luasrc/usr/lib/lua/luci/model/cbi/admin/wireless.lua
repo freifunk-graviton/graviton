@@ -186,6 +186,47 @@ for _, radio in ipairs(radios) do
       o.default = gravconfig.bssid or get_default_bssid(phy)
       o.rmempty = true
 
+
+      o = p:option(ListValue, radio .. '_encryption_mode', translate("Encryption"))
+      if radioconfig.encryption == 'none' or not radioconfig.encryption then
+        o.default = 'none'
+      end
+      if radioconfig.encryption 
+      o.default = radioconfig.encryption or 'none'
+      o:value('none', translate("none"))
+      o:value('WPA', translate("WPA"))
+      o:value('WEP', translate("WEP (multiple keys)"))
+      o:value('WEPSK', translate("WEP (shared key)"))
+
+      o = p:option(ListValue, radio .. '_wpa_version', translate("WPA Version"))
+      o.default = radioconfig.wpa_version or 'WPA2P'
+      o:value('WPAP', translate("WPA Personal (PSK)"))
+      o:value('WPA2P', translate("WPA2 Personal (PSK)"))
+      o:value('WPAMP', translate("WPA/WPA2 Personal (PSK) mixed mode"))
+      o:value('WPAE', translate("WPA Enterprise"))
+      o:value('WPA2E', translate("WPA2 Enterprise"))
+      o:value('WPAME', translate("WPA/WPA2 Enterprise mixed mode"))
+
+      o = p:option(ListValue, radio .. '_wpa_cipher', translate("WPA Cipher"))
+      o.default = gravconfig.encryption or 'CCMP'
+      o:value('CCMP', translate("CCMP"))
+      o:value('TKIP', translate("TKIP"))
+      o:value('CCMPTKIP', translate("CCMP/TKIP mixed"))
+      o:depends(radio .. '_encryption_mode', "WPA")
+
+      o = p:option(Value, radio .. "_graviton_wpakey", translate("WPA2 Key"))
+      o.datatype = "wpakey"
+      o:depends(radio .. '_encryption_mode', "WPA")
+      o.default = gravconfig.key or ''
+      o.rmempty = true
+
+      o = p:option(Value, radio .. "_graviton_wepkey", translate("WEP Key"))
+      o.datatype = "wepkey"
+      o:depends(radio .. '_encryption_mode', "WEP")
+      o.default = gravconfig.key or ''
+      o.rmempty = true
+
+
       o = p:option(Value, radio .. "_distance", translate("Distance (in Meters)"))
       o.datatype = "uinteger"
       o.default = radioconfig.distance
