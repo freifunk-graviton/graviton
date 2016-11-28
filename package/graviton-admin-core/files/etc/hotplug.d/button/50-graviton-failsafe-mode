@@ -4,10 +4,10 @@
 wait=3
 
 
-wait_setup_mode() {
+wait_failsafe_mode() {
 	sleep $wait
-	uci set 'gluon-setup-mode.@setup_mode[0].enabled=1'
-	uci commit gluon-setup-mode
+	uci set 'graviton-failsafe-mode.@failsafe_mode[0].enabled=1'
+	uci commit graviton-failsafe-mode
 	reboot
 }
 
@@ -15,14 +15,14 @@ wait_setup_mode() {
 if [ "$BUTTON" = wps -o "$BUTTON" = reset ]; then
 	case "$ACTION" in
 		pressed)
-			wait_setup_mode &
+			wait_failsafe_mode &
 			PID=$!
-			echo $PID > /tmp/.wait_setup_mode
+			echo $PID > /tmp/.wait_failsafe_mode
 			;;
 		released)
-			if [ -r /tmp/.wait_setup_mode ]; then
-				kill $(cat /tmp/.wait_setup_mode)
-				rm /tmp/.wait_setup_mode
+			if [ -r /tmp/.wait_failsafe_mode ]; then
+				kill $(cat /tmp/.wait_failsafe_mode)
+				rm /tmp/.wait_failsafe_mode
 			fi
 			;;
 	esac

@@ -3,22 +3,22 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-luci-autoupdater
+PKG_NAME:=graviton-admin-advanced
 PKG_VERSION:=1
 PKG_RELEASE:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(GLUONDIR)/include/package.mk
+include $(GRAVITONDIR)/include/package.mk
 
-PKG_CONFIG_DEPENDS += $(GLUON_I18N_CONFIG)
+PKG_CONFIG_DEPENDS += $(GRAVITON_I18N_CONFIG)
 
 
-define Package/gluon-luci-autoupdater
-  SECTION:=gluon
-  CATEGORY:=Gluon
-  TITLE:=Luci module for gluon-autoupdater
-  DEPENDS:=+gluon-luci-admin +gluon-autoupdater
+define Package/graviton-admin-advanced
+  SECTION:=graviton
+  CATEGORY:=Graviton
+  TITLE:=Luci module for advanced settings
+  DEPENDS:=+graviton-luci-admin
 endef
 
 define Build/Prepare
@@ -29,13 +29,13 @@ define Build/Configure
 endef
 
 define Build/Compile
-	$(call GluonBuildI18N,gluon-luci-autoupdater,i18n)
-	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
+	$(call GravitonBuildI18N,graviton-admin-advanced,i18n)
+	$(call GravitonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
-define Package/gluon-luci-autoupdater/install
+define Package/graviton-admin-advanced/install
 	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
-	$(call GluonInstallI18N,gluon-luci-autoupdater,$(1))
+	$(call GravitonInstallI18N,graviton-admin-advanced,$(1))
 endef
 
-$(eval $(call BuildPackage,gluon-luci-autoupdater))
+$(eval $(call BuildPackage,graviton-admin-advanced))

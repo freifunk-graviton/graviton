@@ -35,9 +35,9 @@ define Build/Compile
 	$(call GravitonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
-define Package/graviton-luci-theme/install
+define Package/graviton-admin-theme/install
 	$(CP) ./files/* $(1)/
 	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
 endef
 
-$(eval $(call BuildPackage,graviton-luci-theme))
+$(eval $(call BuildPackage,graviton-admin-theme))
