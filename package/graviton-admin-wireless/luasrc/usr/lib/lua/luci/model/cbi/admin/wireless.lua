@@ -172,7 +172,7 @@ for _, radio in ipairs(radios) do
       o:value('mesh', 'Mesh')
       o:value('monitor', 'Monitor')
 
-      o = p:option(Value, radio .. "graviton_essid", translate("ESSID"))
+      o = p:option(Value, radio .. "_graviton_essid", translate("ESSID"))
       o.rmempty = false
       o.datatype = "maxlength(32)"
       o.default = gravconfig.ssid or 'Graviton'
@@ -181,13 +181,13 @@ for _, radio in ipairs(radios) do
       o.rmempty = false
       o.default = gravconfig.hidden and o.enabled or o.disabled
       
-      o = p:option(Value, radio .. "graviton_bssid", translate("BSSID"))
-      o.datatype = "maxlength(32)"
+      o = p:option(Value, radio .. "_graviton_bssid", translate("BSSID"))
+      o.datatype = "macaddr"
       o.default = gravconfig.bssid or get_default_bssid(phy)
       o.rmempty = true
 
       o = p:option(Value, radio .. "_distance", translate("Distance (in Meters)"))
-      o.datatype = "maxlength(32)"
+      o.datatype = "uinteger"
       o.default = radioconfig.distance
 
       o = p:option(Flag, radio .. "_ht_coex", translate("Ignore HT40 intolerance (may be illegal in your country)"))
@@ -215,9 +215,12 @@ for _, radio in ipairs(radios) do
         end
       end
 
-      o = p:option(Value, radio .. "_antenna_gain", translate("Antenna gain"))
-      o.datatype = "maxlength(32)"
-      o.default = radioconfig.antenna_gain
+      o = p:option(Value, radio .. "_admin_antenna_gain", translate("Antenna gain"))
+      o.datatype = "uinteger"
+      o.default = radioconfig.admin_antenna_gain
+      o = p:option(Value, radio .. "_admin_cable_loss", translate("Cable loss"))
+      o.datatype = "uinteger"
+      o.default = radioconfig.admin_cable_loss
 
       if #txpowers > 2 then
         o = p:option(ListValue, radio .. '_txpower', translate("Transmission power"))
@@ -324,6 +327,20 @@ function f.handle(self, state, data)
         else
           uci:set('wireless', radio, 'txpower', data[radio .. '_txpower'])
         end
+      end
+
+      if data[radio .. '_admin_antenna_gain'] or data[radio .. '_admin_cable_loss'] then
+        local loss = data[radio .. '_admin_cable_loss']
+        local gain = data[radio .. '_admin_antenna_gain']
+        if not loss then
+          loss=0
+        end
+        if not gain then
+          gain=0
+        end
+        uci:set('wireless', radio, 'antenna_gain', data[radio .. '_admin_antenna_gain'] - loss)
+        uci:set('wireless', radio, 'admin_antenna_gain', data[radio .. '_admin_antenna_gain'])
+        uci:set('wireless', radio, 'admin_cable_loss', data[radio .. '_admin_antenna_gain'])
       end
 
       if data[radio .. '_htmode'] then

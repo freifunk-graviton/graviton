@@ -24,8 +24,8 @@
 */
 
 
-#ifndef _LIBGLUON_LIBGLUON_H_
-#define _LIBGLUON_LIBGLUON_H_
+#ifndef _LIBGRAVITON_LIBGRAVITON_H_
+#define _LIBGRAVITON_LIBGRAVITON_H_
 
 char * gravitonutil_read_line(const char *filename);
 char * gravitonutil_get_sysconfig(const char *key);
@@ -37,4 +37,4 @@ struct json_object * gravitonutil_wrap_and_free_string(char *str);
 
 struct json_object * gravitonutil_load_site_config(void);
 
-#endif /* _LIBGLUON_LIBGLUON_H_ */
+#endif /* _LIBGRAVITON_LIBGRAVITON_H_ */
