@@ -4,8 +4,8 @@ Getting Started
 Selecting the right version
 ---------------------------
 
-Gluon's releases are managed using `Git tags`_. If you're a community getting
-started with Gluon we recommend to use the latest stable release if Gluon.
+Graviton's releases are managed using `Git tags`_. If you're a community getting
+started with Graviton we recommend to use the latest stable release.
 
 Take a look at the `list of gluon releases`_ and notice the latest release,
 e.g. *v2014.3*.

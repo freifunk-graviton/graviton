@@ -2,18 +2,32 @@ ifneq ($(__graviton_inc),1)
 __graviton_inc=1
 
 GRAVITON_SITEDIR ?= $(GRAVITONDIR)/site
-GRAVITON_IMAGEDIR ?= $(GRAVITONDIR)/images
 GRAVITON_BUILDDIR ?= $(GRAVITONDIR)/build
 
 GRAVITON_ORIGOPENWRTDIR := $(GRAVITONDIR)/openwrt
 GRAVITON_SITE_CONFIG := $(GRAVITON_SITEDIR)/site.conf
 
-GRAVITON_OPENWRTDIR = $(GRAVITON_BUILDDIR)/$(GRAVITON_TARGET)/openwrt
+GRAVITON_OUTPUTDIR ?= $(GRAVITONDIR)/output
+GRAVITON_IMAGEDIR ?= $(GRAVITON_OUTPUTDIR)/images
+GRAVITON_MODULEDIR ?= $(GRAVITON_OUTPUTDIR)/modules
 
-BOARD_BUILDDIR = $(GRAVITON_BUILDDIR)/$(BOARD)$(if $(SUBTARGET),-$(SUBTARGET))
+GRAVITON_OPKG_KEY ?= $(GRAVITON_BUILDDIR)/graviton-opkg-key
+
+export GRAVITONDIR GRAVITON_SITEDIR GRAVITON_BUILDDIR GRAVITON_SITE_CONFIG GRAVITON_OUTPUTDIR GRAVITON_IMAGEDIR GRAVITON_MODULEDIR
+
+
+BOARD_BUILDDIR = $(GRAVITON_BUILDDIR)/$(GRAVITON_TARGET)
 BOARD_KDIR = $(BOARD_BUILDDIR)/kernel
 
-export GRAVITONDIR GRAVITON_SITEDIR GRAVITON_SITE_CONFIG GRAVITON_IMAGEDIR GRAVITON_OPENWRTDIR GRAVITON_BUILDDIR
+export BOARD_BUILDDIR
+
+
+LINUX_RELEASE := 2
+export LINUX_RELEASE
+
+
+GRAVITON_OPENWRTDIR = $(BOARD_BUILDDIR)/openwrt
+
 
 $(GRAVITON_SITEDIR)/site.mk:
 	$(error There was no site configuration found. Please check out a site configuration to $(GRAVITON_SITEDIR))
@@ -24,12 +38,15 @@ $(GRAVITON_SITEDIR)/site.mk:
 GRAVITON_VERSION := $(shell cd $(GRAVITONDIR) && git describe --always 2>/dev/null || echo unknown)
 export GRAVITON_VERSION
 
+GRAVITON_LANGS ?= en
+export GRAVITON_LANGS
+
 
 ifeq ($(OPENWRT_BUILD),1)
 ifeq ($(GRAVITON_TOOLS),1)
 
-CONFIG_VERSION_REPO := $(shell $(GRAVITONDIR)/scripts/site.sh opkg_repo || echo http://downloads.openwrt.org/barrier_breaker/14.07/%S/packages)
-export CONFIG_VERSION_REPO
+GRAVITON_OPENWRT_FEEDS := base packages luci routing telephony management
+export GRAVITON_OPENWRT_FEEDS
 
 GRAVITON_SITE_CODE := $(shell $(GRAVITONDIR)/scripts/site.sh site_code)
 export GRAVITON_SITE_CODE
@@ -58,9 +75,7 @@ GRAVITON_TARGET_$$(graviton_target)_BOARD := $(1)
 GRAVITON_TARGET_$$(graviton_target)_SUBTARGET := $(2)
 endef
 
-regex-escape = $(shell echo '$(1)' | sed -e 's/[]\/()$*.^|[]/\\&/g')
-
-GRAVITON_DEFAULT_PACKAGES := graviton-core kmod-ipv6 firewall ip6tables -uboot-envtools
+GRAVITON_DEFAULT_PACKAGES := graviton-core firewall ip6tables -uboot-envtools -wpad-mini hostapd-mini
 
 override DEFAULT_PACKAGES.router :=
 

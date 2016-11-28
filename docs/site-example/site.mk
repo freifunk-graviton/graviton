@@ -1,50 +1,37 @@
-##	gluon site.mk makefile example
+##	graviton site.mk makefile example
 
-##	GLUON_SITE_PACKAGES
-#		specify gluon/openwrt packages to include here
-#		The gluon-mesh-batman-adv-* package must come first because of the dependency resolution
+##	GRAVITON_SITE_PACKAGES
+#		specify graviton/openwrt packages to include here
+#		The graviton-mesh-batman-adv-* package must come first because of the dependency resolution
 
-GLUON_SITE_PACKAGES := \
-	gluon-mesh-batman-adv-14 \
-	gluon-alfred \
-	gluon-announced \
-	gluon-autoupdater \
-	gluon-config-mode-hostname \
-	gluon-config-mode-autoupdater \
-	gluon-config-mode-mesh-vpn \
-	gluon-config-mode-geo-location \
-	gluon-config-mode-contact-info \
-	gluon-ebtables-filter-multicast \
-	gluon-ebtables-filter-ra-dhcp \
-	gluon-luci-admin \
-	gluon-luci-autoupdater \
-	gluon-luci-portconfig \
-	gluon-next-node \
-	gluon-mesh-vpn-fastd \
-	gluon-radvd \
-	gluon-status-page \
+GRAVITON_SITE_PACKAGES := \
+	graviton-autoupdater \
+	graviton-admin-core \
+	graviton-admin-luci \
+	graviton-admin-wireless \
+	graviton-admin-advanced \
 	iwinfo \
 	iptables \
 	haveged
 
-##	DEFAULT_GLUON_RELEASE
+##	DEFAULT_GRAVITON_RELEASE
 #		version string to use for images
-#		gluon relies on
+#		graviton relies on
 #			opkg compare-versions "$1" '>>' "$2"
 #		to decide if a version is newer or not.
 
-DEFAULT_GLUON_RELEASE := 0.4+0-exp$(shell date '+%Y%m%d')
+DEFAULT_GRAVITON_RELEASE := 2016.1
 
 
-##	GLUON_RELEASE
-#		call make with custom GLUON_RELEASE flag, to use your own release version scheme.
+##	GRAVITON_RELEASE
+#		call make with custom GRAVITON_RELEASE flag, to use your own release version scheme.
 #		e.g.:
-#			$ make images GLUON_RELEASE=23.42+5
+#			$ make images GRAVITON_RELEASE=23.42+5
 #		would generate images named like this:
-#			gluon-ff%site_code%-23.42+5-%router_model%.bin
+#			graviton-ff%site_code%-23.42+5-%router_model%.bin
 
 # Allow overriding the release number from the command line
-GLUON_RELEASE ?= $(DEFAULT_GLUON_RELEASE)
+GRAVITON_RELEASE ?= $(DEFAULT_GRAVITON_RELEASE)
 
 # Default priority for updates.
-GLUON_PRIORITY ?= 0
+GRAVITON_PRIORITY ?= 0

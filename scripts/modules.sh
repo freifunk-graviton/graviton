@@ -1,8 +1,8 @@
-. "$1"/modules
-[ ! -f "$1"/site/modules ] || . "$1"/site/modules
+. "$GRAVITONDIR"/modules
+[ ! -f "$GRAVITON_SITEDIR"/modules ] || . "$GRAVITON_SITEDIR"/modules
 
-GLUON_MODULES=openwrt
+GRAVITON_MODULES=openwrt
 
-for feed in $GLUON_SITE_FEEDS $GLUON_FEEDS; do
-	GLUON_MODULES="$GLUON_MODULES packages/$feed"
+for feed in $GRAVITON_SITE_FEEDS $GRAVITON_FEEDS; do
+	GRAVITON_MODULES="$GRAVITON_MODULES packages/$feed"
 done

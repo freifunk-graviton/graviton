@@ -1,14 +1,13 @@
 # Makefile for OpenWrt
 #
 # Copyright (C) 2007-2012 OpenWrt.org
-# Copyright (C) 2013-2014 Project Gluon
-# Copyright (C) 2016      Project Graviton
+# Copyright (C) 2013-2014 Project Graviton
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
 #
 
-RELEASE:=Barrier Breaker
+RELEASE:=Chaos Calmer
 PREP_MK= OPENWRT_BUILD= QUIET=0
 
 export IS_TTY=$(shell tty -s && echo 1 || echo 0)
@@ -47,10 +46,6 @@ ifneq ($(shell $(HOSTCC) 2>&1 | grep clang),)
   export HOSTCC_WRAPPER:=$(TOPDIR)/scripts/clang-gcc-wrapper
 else
   export HOSTCC_WRAPPER:=$(HOSTCC)
-endif
-
-ifeq ($(FORCE),)
-  .config scripts/config/conf scripts/config/mconf: tmp/.prereq-build
 endif
 
 SCAN_COOKIE?=$(shell echo $$$$)
