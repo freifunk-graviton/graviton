@@ -1,6 +1,6 @@
 #!/usr/bin/lua
 
-local sysconfig = require 'gluon.sysconfig'
+local sysconfig = require 'graviton.sysconfig'
 
 
 if sysconfig.primary_mac then
@@ -8,7 +8,7 @@ if sysconfig.primary_mac then
 end
 
 
-local platform = require 'gluon.platform'
+local platform = require 'graviton.platform'
 
 local fs = require 'nixio.fs'
 local util = require 'luci.util'

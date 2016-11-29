@@ -18,7 +18,7 @@ define Package/graviton-admin-advanced
   SECTION:=graviton
   CATEGORY:=Graviton
   TITLE:=Luci module for advanced settings
-  DEPENDS:=+graviton-luci-admin
+  DEPENDS:=+graviton-admin-luci
 endef
 
 define Build/Prepare

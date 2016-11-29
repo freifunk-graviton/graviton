@@ -14,12 +14,11 @@ include $(GRAVITONDIR)/include/package.mk
 
 PKG_CONFIG_DEPENDS += $(GRAVITON_I18N_CONFIG)
 
-
 define Package/graviton-admin-luci
   SECTION:=graviton
   CATEGORY:=Graviton
   TITLE:=Luci based administration interface
-  DEPENDS:=graviton-config-mode-core-virtual +pretty-hostname
+  DEPENDS:=graviton-admin-core-virtual +pretty-hostname
 endef
 
 define Build/Prepare
@@ -30,7 +29,7 @@ define Build/Configure
 endef
 
 define Build/Compile
-	$(call GravitonBuildI18N,graviton-admin-luci,i18n)
+	$(call GravitonBuildI18N, graviton-admin-luci,i18n)
 	$(call GravitonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 

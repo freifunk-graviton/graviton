@@ -2,12 +2,12 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=graviton-autoupdater
 PKG_VERSION:=1
-PKG_RELEASE:=$(GLUON_BRANCH)
+PKG_RELEASE:=$(GRAVITON_BRANCH)
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 PKG_BUILD_DEPENDS := respondd
 
-include $(GLUONDIR)/include/package.mk
+include $(GRAVITONDIR)/include/package.mk
 
 
 define Package/graviton-autoupdater
@@ -31,12 +31,12 @@ define Package/graviton-autoupdater/install
 	$(CP) ./files/* $(1)/
 	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
 
-	$(INSTALL_DIR) $(1)/lib/gluon/respondd
-	$(CP) $(PKG_BUILD_DIR)/respondd.so $(1)/lib/gluon/respondd/autoupdater.so
+	$(INSTALL_DIR) $(1)/lib/graviton/respondd
+	$(CP) $(PKG_BUILD_DIR)/respondd.so $(1)/lib/graviton/respondd/autoupdater.so
 
-	if [ '$(GLUON_BRANCH)' ]; then \
+	if [ '$(GRAVITON_BRANCH)' ]; then \
 		$(INSTALL_DIR) $(1)/lib/graviton/autoupdater; \
-		echo '$(GLUON_BRANCH)' > $(1)/lib/graviton/autoupdater/default_branch; \
+		echo '$(GRAVITON_BRANCH)' > $(1)/lib/graviton/autoupdater/default_branch; \
 	fi
 endef
 

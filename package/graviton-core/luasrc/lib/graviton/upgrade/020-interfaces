@@ -1,15 +1,15 @@
 #!/usr/bin/lua
 
-local sysconfig = require 'gluon.sysconfig'
-local gluon_util = require 'gluon.util'
-local platform = require 'gluon.platform'
+local sysconfig = require 'graviton.sysconfig'
+local graviton_util = require 'graviton.util'
+local platform = require 'graviton.platform'
 
 local uci = require('luci.model.uci').cursor()
 
 
 if not (sysconfig.lan_ifname or sysconfig.wan_ifname) then
   local function iface_exists(name)
-    return (gluon_util.exec('ip', 'link', 'show', 'dev', (name:gsub('%..*$', ''))) == 0)
+    return (graviton_util.exec('ip', 'link', 'show', 'dev', (name:gsub('%..*$', ''))) == 0)
   end
 
 

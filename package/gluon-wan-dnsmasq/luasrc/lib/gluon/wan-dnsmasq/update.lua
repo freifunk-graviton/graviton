@@ -1,6 +1,6 @@
 #!/usr/bin/lua
 
-local RESOLV_CONF_DIR = '/var/gluon/wan-dnsmasq'
+local RESOLV_CONF_DIR = '/var/graviton/wan-dnsmasq'
 local RESOLV_CONF = RESOLV_CONF_DIR .. '/resolv.conf'
 
 
@@ -34,7 +34,7 @@ local function append_interface_servers(iface)
 end
 
 
-local static = uci:get_first('gluon-wan-dnsmasq', 'static', 'server')
+local static = uci:get_first('graviton-wan-dnsmasq', 'static', 'server')
 
 if type(static) == 'table' and #static > 0 then
   for _, server in ipairs(static) do

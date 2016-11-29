@@ -23,7 +23,7 @@ $Id$
 	local pretty_hostname = require "pretty_hostname"
 
 	local hostname = pretty_hostname.get(uci)
-	local release = fs.readfile("/lib/gluon/release")
+	local release = fs.readfile("/lib/graviton/release")
 
 	local request  = disp.context.path
 	local request2 = disp.context.request

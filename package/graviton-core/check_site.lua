@@ -19,7 +19,6 @@ need_string 'timezone'
 
 need_string_array('ntp_servers', false)
 
-need_string_match('prefix6', '^[%x:]+/%d+$')
 
 
 for _, config in ipairs({'wifi24', 'wifi5'}) do

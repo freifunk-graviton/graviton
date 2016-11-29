@@ -1,8 +1,8 @@
 #!/usr/bin/lua
 
 local uci = require('luci.model.uci').cursor()
-local sysctl = require 'gluon.sysctl'
-local sysconfig = require 'gluon.sysconfig'
+local sysctl = require 'graviton.sysctl'
+local sysconfig = require 'graviton.sysconfig'
 
 
 uci:section('network', 'interface', 'wan',

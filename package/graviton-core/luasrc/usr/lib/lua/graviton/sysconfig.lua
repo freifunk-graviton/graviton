@@ -1,4 +1,4 @@
-local sysconfigdir = '/lib/gluon/core/sysconfig/'
+local sysconfigdir = '/lib/graviton/core/sysconfig/'
 
 local function get(_, name)
 	local f = io.open(sysconfigdir .. name)
@@ -22,7 +22,7 @@ end
 
 local setmetatable = setmetatable
 
-module 'gluon.sysconfig'
+module 'graviton.sysconfig'
 
 setmetatable(_M,
 	{

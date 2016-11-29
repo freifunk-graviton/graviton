@@ -1,5 +1,5 @@
 #!/bin/sh
 
-for script in /lib/gluon/upgrade/*; do
+for script in /lib/graviton/upgrade/*; do
 	"$script"
 done

@@ -1,10 +1,10 @@
 #!/usr/bin/lua
 
 local fs = require 'nixio.fs'
-local sysconfig = require 'gluon.sysconfig'
+local sysconfig = require 'graviton.sysconfig'
 
 
-if fs.stat('/lib/gluon/version/core') and not sysconfig.gluon_version then
-  -- This isn't an initial upgrade, so set gluon_version
-  sysconfig.gluon_version = ''
+if fs.stat('/lib/graviton/version/core') and not sysconfig.graviton_version then
+  -- This isn't an initial upgrade, so set graviton_version
+  sysconfig.graviton_version = ''
 end

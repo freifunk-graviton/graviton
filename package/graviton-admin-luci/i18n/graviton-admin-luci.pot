@@ -22,7 +22,7 @@ msgstr ""
 msgid "Firmware release"
 msgstr ""
 
-msgid "Gluon version"
+msgid "Graviton version"
 msgstr ""
 
 msgid "Hardware model"

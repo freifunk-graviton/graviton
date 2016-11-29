@@ -35,8 +35,8 @@ msgstr "Firmware-Datei"
 msgid "Firmware release"
 msgstr "Firmware-Release"
 
-msgid "Gluon version"
-msgstr "Gluon-Version"
+msgid "Graviton version"
+msgstr "Graviton-Version"
 
 msgid "Hardware model"
 msgstr "Hardware-Modell"

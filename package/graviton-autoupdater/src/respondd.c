@@ -27,7 +27,7 @@
 #include <respondd.h>
 
 #include <json-c/json.h>
-#include <libgluonutil.h>
+#include <libgravitonutil.h>
 
 #include <uci.h>
 
@@ -48,7 +48,7 @@ static struct json_object * get_autoupdater(void) {
 
 	struct json_object *ret = json_object_new_object();
 
-	json_object_object_add(ret, "branch", gluonutil_wrap_string(uci_lookup_option_string(ctx, s, "branch")));
+	json_object_object_add(ret, "branch", gravitonutil_wrap_string(uci_lookup_option_string(ctx, s, "branch")));
 
 	const char *enabled = uci_lookup_option_string(ctx, s, "enabled");
 	json_object_object_add(ret, "enabled", json_object_new_boolean(enabled && !strcmp(enabled, "1")));

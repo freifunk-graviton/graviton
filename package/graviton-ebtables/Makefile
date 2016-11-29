@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-ebtables
+PKG_NAME:=graviton-ebtables
 PKG_VERSION:=1
 PKG_RELEASE:=1
 
@@ -9,15 +9,15 @@ PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 
-define Package/gluon-ebtables
-  SECTION:=gluon
-  CATEGORY:=Gluon
+define Package/graviton-ebtables
+  SECTION:=graviton
+  CATEGORY:=Graviton
   TITLE:=Ebtables support
-  DEPENDS:=+gluon-core +ebtables +kmod-ebtables-ipv4 +kmod-ebtables-ipv6 +kmod-ipt-core
+  DEPENDS:=+graviton-core +ebtables +kmod-ebtables-ipv4 +kmod-ebtables-ipv6 +kmod-ipt-core
 endef
 
-define Package/gluon-ebtables/description
-	Gluon community wifi mesh firmware framework: ebtables support
+define Package/graviton-ebtables/description
+	Graviton community wifi mesh firmware framework: ebtables support
 endef
 
 define Build/Prepare
@@ -30,8 +30,8 @@ endef
 define Build/Compile
 endef
 
-define Package/gluon-ebtables/install
+define Package/graviton-ebtables/install
 	$(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackage,gluon-ebtables))
+$(eval $(call BuildPackage,graviton-ebtables))

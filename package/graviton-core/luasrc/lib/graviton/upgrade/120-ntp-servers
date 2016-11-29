@@ -1,6 +1,6 @@
 #!/usr/bin/lua
 
-local site = require 'gluon.site_config'
+local site = require 'graviton.site_config'
 local uci = require 'luci.model.uci'
 
 if not site.ntp_servers or #site.ntp_servers == 0 then

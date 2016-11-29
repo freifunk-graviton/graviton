@@ -1,22 +1,22 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-wan-dnsmasq
+PKG_NAME:=graviton-wan-dnsmasq
 PKG_VERSION:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
-include $(GLUONDIR)/include/package.mk
+include $(GRAVITONDIR)/include/package.mk
 
 
-define Package/gluon-wan-dnsmasq
-  SECTION:=gluon
-  CATEGORY:=Gluon
+define Package/graviton-wan-dnsmasq
+  SECTION:=graviton
+  CATEGORY:=Graviton
   TITLE:=Support for a secondary DNS server using the WAN interface
-  DEPENDS:=+gluon-core +dnsmasq +libpacketmark
+  DEPENDS:=+graviton-core +dnsmasq +libpacketmark
 endef
 
-define Package/gluon-wan-dnsmasq/description
-	Gluon community wifi mesh firmware framework: Support for a secondary DNS server using the WAN interface
+define Package/graviton-wan-dnsmasq/description
+	Graviton community wifi mesh firmware framework: Support for a secondary DNS server using the WAN interface
 endef
 
 define Build/Prepare
@@ -27,12 +27,12 @@ define Build/Configure
 endef
 
 define Build/Compile
-	$(call GluonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
+	$(call GravitonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
 endef
 
-define Package/gluon-wan-dnsmasq/install
+define Package/graviton-wan-dnsmasq/install
 	$(CP) ./files/* $(1)/
 	$(CP) $(PKG_BUILD_DIR)/luadest/* $(1)/
 endef
 
-$(eval $(call BuildPackage,gluon-wan-dnsmasq))
+$(eval $(call BuildPackage,graviton-wan-dnsmasq))

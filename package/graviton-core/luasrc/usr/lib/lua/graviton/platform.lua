@@ -4,7 +4,7 @@ local util = require 'luci.util'
 local setmetatable = setmetatable
 
 
-module 'gluon.platform'
+module 'graviton.platform'
 
 setmetatable(_M,
 	     {

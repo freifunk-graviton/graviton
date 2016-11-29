@@ -1,5 +1,5 @@
 #!/usr/bin/lua
 
-local sysctl = require 'gluon.sysctl'
+local sysctl = require 'graviton.sysctl'
 
 sysctl.set('vm.panic_on_oom', 1)

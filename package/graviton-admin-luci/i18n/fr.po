@@ -36,8 +36,8 @@ msgstr "Fichier image"
 msgid "Firmware release"
 msgstr "Version de la firmware"
 
-msgid "Gluon version"
-msgstr "Version de Gluon"
+msgid "Graviton version"
+msgstr "Version de Graviton"
 
 msgid "Hardware model"
 msgstr "Modèle du Matériel"

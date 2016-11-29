@@ -14,7 +14,7 @@ PKG_CONFIG_DEPENDS += $(GRAVITON_I18N_CONFIG)
 define Package/graviton-admin-wireless
   SECTION:=graviton
   CATEGORY:=Graviton
-  DEPENDS:=+graviton-luci-admin +libiwinfo-lua
+  DEPENDS:=+graviton-admin-luci +libiwinfo-lua
   TITLE:=UI for Wifi Settings
 endef
 

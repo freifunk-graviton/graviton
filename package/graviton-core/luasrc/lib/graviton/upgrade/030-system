@@ -1,12 +1,12 @@
 #!/usr/bin/lua
 
 local pretty_hostname = require 'pretty_hostname'
-local sysconfig = require 'gluon.sysconfig'
+local sysconfig = require 'graviton.sysconfig'
 
 -- Initial
-if not sysconfig.gluon_version then
-  local site = require 'gluon.site_config'
-  local util = require 'gluon.util'
+if not sysconfig.graviton_version then
+  local site = require 'graviton.site_config'
+  local util = require 'graviton.util'
   local uci = require('luci.model.uci').cursor()
 
   local system = uci:get_first('system', 'system')

@@ -1,18 +1,18 @@
 #!/usr/bin/lua
 
-local util = require 'gluon.util'
-local site = require 'gluon.site_config'
-local sysconfig = require 'gluon.sysconfig'
+local util = require 'graviton.util'
+local site = require 'graviton.site_config'
+local sysconfig = require 'graviton.sysconfig'
 
 local uci = require('luci.model.uci').cursor()
 
 -- Initial
-if not sysconfig.gluon_version then
+if not sysconfig.graviton_version then
   uci:delete_all('wireless', 'wifi-iface')
 end
 
 local function get_channel(radio, config)
-  if uci:get_first('gluon-core', 'wireless', 'preserve_channels') then
+  if uci:get_first('graviton-core', 'wireless', 'preserve_channels') then
     return uci:get('wireless', radio, 'channel') or config.channel
   else
     return config.channel
@@ -61,13 +61,13 @@ local function configure_ibss(config, radio, index, suffix, disabled)
     uci:section('network', 'interface', name .. '_vlan',
       {
         ifname = '@' .. name .. '.' .. config.vlan,
-        proto = 'gluon_mesh',
+        proto = 'graviton_mesh',
       }
     )
   else
     uci:section('network', 'interface', name,
       {
-        proto = 'gluon_mesh',
+        proto = 'graviton_mesh',
       }
     )
   end
@@ -106,7 +106,7 @@ local function configure_mesh(config, radio, index, suffix, disabled)
 
   uci:section('network', 'interface', name,
     {
-      proto = 'gluon_mesh',
+      proto = 'graviton_mesh',
     }
   )
 

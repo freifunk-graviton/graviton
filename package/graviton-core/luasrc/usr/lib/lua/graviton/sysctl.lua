@@ -1,7 +1,7 @@
-local util = require 'gluon.util'
+local util = require 'graviton.util'
 
 
-module 'gluon.sysctl'
+module 'graviton.sysctl'
 
 function set(name, value)
 	util.replace_prefix('/etc/sysctl.conf', name .. '=', name .. '=' .. value .. '\n')

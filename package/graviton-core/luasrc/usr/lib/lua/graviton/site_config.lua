@@ -1,5 +1,5 @@
 local function get_site_config()
-  local config = '/lib/gluon/site.json'
+  local config = '/lib/graviton/site.json'
 
   local json = require 'luci.jsonc'
   local ltn12 = require 'luci.ltn12'
@@ -16,7 +16,7 @@ end
 
 local setmetatable = setmetatable
 
-module 'gluon.site_config'
+module 'graviton.site_config'
 
 setmetatable(_M,
 	{

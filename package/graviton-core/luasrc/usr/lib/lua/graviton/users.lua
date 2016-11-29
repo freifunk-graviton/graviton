@@ -1,10 +1,10 @@
-local util = require 'gluon.util'
+local util = require 'graviton.util'
 
 local os = os
 local string = string
 
 
-module 'gluon.users'
+module 'graviton.users'
 
 function add_user(username, uid, gid)
 	util.lock('/var/lock/passwd')

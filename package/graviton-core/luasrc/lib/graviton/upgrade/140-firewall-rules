@@ -1,6 +1,6 @@
 #!/usr/bin/lua
 
-local site = require 'gluon.site_config'
+local site = require 'graviton.site_config'
 local uci = require 'luci.model.uci'
 
 local c = uci.cursor()

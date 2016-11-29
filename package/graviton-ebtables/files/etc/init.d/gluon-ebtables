@@ -1,5 +1,5 @@
 #!/bin/sh /etc/rc.common
-# Copyright (C) 2013 Project Gluon
+# Copyright (C) 2013 Project Graviton
 #
 # Firewall script for inserting and removing ebtables rules.
 #
@@ -11,9 +11,9 @@
 # Inserting all rules:
 # $ ./firewall-ebtables start
 # Inserting a specific rule file:
-# $ ./firewall-ebtables start /lib/gluon/ebtables/100-mcast-chain
+# $ ./firewall-ebtables start /lib/graviton/ebtables/100-mcast-chain
 # Removing a specific rule file:
-# $ ./firewall-ebtables stop /lib/gluon/ebtables/100-mcast-chain
+# $ ./firewall-ebtables stop /lib/graviton/ebtables/100-mcast-chain
 
 
 START=19
@@ -42,7 +42,7 @@ exec_all() {
 	local old_ifs="$IFS"
 	IFS='
 '
-	for file in `find /lib/gluon/ebtables -type f | sort $sort_arg`; do
+	for file in `find /lib/graviton/ebtables -type f | sort $sort_arg`; do
 		exec_file "$file"
 	done
 	IFS="$old_ifs"

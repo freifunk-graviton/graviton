@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=gluon-lock-password
+PKG_NAME:=graviton-lock-password
 PKG_VERSION:=1
 PKG_RELEASE:=1
 
@@ -9,14 +9,14 @@ PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 
-define Package/gluon-lock-password
-  SECTION:=gluon
-  CATEGORY:=Gluon
+define Package/graviton-lock-password
+  SECTION:=graviton
+  CATEGORY:=Graviton
   TITLE:=Locks the root account by default
-  DEPENDS:=+gluon-core
+  DEPENDS:=+graviton-core
 endef
 
-define Package/gluon-lock-password/description
+define Package/graviton-lock-password/description
 	This packages locks the root account by default.
 endef
 
@@ -30,8 +30,8 @@ endef
 define Build/Compile
 endef
 
-define Package/gluon-lock-password/install
+define Package/graviton-lock-password/install
 	$(CP) ./files/* $(1)/
 endef
 
-$(eval $(call BuildPackage,gluon-lock-password))
+$(eval $(call BuildPackage,graviton-lock-password))

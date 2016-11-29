@@ -9,7 +9,7 @@ local function migrate_iface(iface)
 
 	local s = iface['.name']
 
-	uci:set('network', s, 'proto', 'gluon_mesh')
+	uci:set('network', s, 'proto', 'graviton_mesh')
 	uci:set('network', s, 'fixed_mtu', '1')
 
 	if iface.mesh_no_rebroadcast then
