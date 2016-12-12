@@ -10,6 +10,7 @@ GRAVITON_SITE_PACKAGES := \
 	graviton-admin-luci \
 	graviton-admin-wireless \
 	graviton-admin-advanced \
+	gravitonhmac \
 	iwinfo \
 	iptables \
 	haveged
