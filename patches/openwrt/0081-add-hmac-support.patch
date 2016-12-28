@@ -1,8 +1,6 @@
-commit 2802d522398a78fc9aec798ff04a221d3dcee500
-Author: Vincent Wiemann <me@bibbl.com>
+From: Vincent Wiemann <me@bibbl.com>
 Date:   Thu Dec 8 10:13:08 2016 +0100
-
-    Add hmac support
+Subject: Add hmac support
 
 diff --git a/target/linux/ar71xx/config-3.18 b/target/linux/ar71xx/config-3.18
 index d7cbe2e..ede9abf 100644

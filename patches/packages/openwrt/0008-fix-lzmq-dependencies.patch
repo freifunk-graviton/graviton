@@ -1,0 +1,24 @@
+From: Your Name <you@example.com>
+Date: Wed, 28 Dec 2016 08:03:07 +0100
+Subject: [PATCH] Fix lzmq
+
+---
+ lang/lzmq/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/lzmq/Makefile b/lang/lzmq/Makefile
+index b17b945..ba78af2 100644
+--- a/lang/lzmq/Makefile
++++ b/lang/lzmq/Makefile
+@@ -26,7 +26,7 @@ define Package/lzmq
+   CATEGORY:=Languages
+   TITLE:=Lua ZeroMQ binding
+   URL:=https://github.com/moteus/lzmq/
+-  DEPENDS:= +lua +libzmq
++  DEPENDS:= +lua +libzmq +libzmq-nc +zeromq
+ endef
+ 
+ define Package/lzmq/description
+-- 
+2.1.4
+
