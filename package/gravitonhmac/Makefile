@@ -5,13 +5,16 @@ PKG_VERSION:=1
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 
+PKG_FIXUP:=libtool-ucxx
+
+include $(INCLUDE_DIR)/uclibc++.mk
 include $(GRAVITONDIR)/include/package.mk
 
 define Package/gravitonhmac
   SECTION:=graviton
   CATEGORY:=Graviton
   TITLE:=Hybrid TDMA userspace program
-  DEPENDS:=+lzmq +libzmq-nc +libevent2 +libnl-tiny
+  DEPENDS:=+lzmq +libzmq-nc +libevent2 +libnl-tiny +libpthread $(CXX_DEPENDS)
 endef
 
 define Package/gravitonhmac/description
@@ -28,14 +31,9 @@ endef
 
 define Build/Compile
 	$(call GravitonSrcDiet,./luasrc,$(PKG_BUILD_DIR)/luadest/)
-	$(MAKE) -C $(PKG_BUILD_DIR) \
-		LIBS="-nodefaultlibs -lgcc -lc -luClibc++" \
-		LDFLAGS="$(EXTRA_LDFLAGS)" \
-		CXXFLAGS="$(TARGET_CFLAGS) $(EXTRA_CPPFLAGS) -nostdinc++" \
-		$(TARGET_CONFIGURE_OPTS) \
-		CROSS="$(TARGET_CROSS)" \
-		ARCH="$(ARCH)" \
-		$(1);
+	CFLAGS="$(TARGET_CFLAGS)" \
+	CPPFLAGS="$(TARGET_CPPFLAGS)" \
+	$(MAKE) -C $(PKG_BUILD_DIR) $(TARGET_CONFIGURE_OPTS)
 endef
 
 define Package/gravitonhmac/install
